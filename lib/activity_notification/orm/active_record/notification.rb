@@ -222,7 +222,7 @@ module ActivityNotification
                                                           .where("group_owners_#{self.class.table_name}.notifier_type = #{self.class.table_name}.notifier_type")
                                                           .where.not("group_owners_#{self.class.table_name}.notifier_id = #{self.class.table_name}.notifier_id")
                                                           .references(:group_owner)
-                                                          .group(:group_owner_id, :notifier_type)
+                                                          .group("#{self.class.table_name}.group_owner_id", "#{self.class.table_name}.notifier_type")
                                                           .count("distinct #{self.class.table_name}.notifier_id")
             unopened_group_member_notifier_counts[[id, notifier_type]] || 0
           end
@@ -241,7 +241,7 @@ module ActivityNotification
                                                           .where("group_owners_#{self.class.table_name}.notifier_type = #{self.class.table_name}.notifier_type")
                                                           .where.not("group_owners_#{self.class.table_name}.notifier_id = #{self.class.table_name}.notifier_id")
                                                           .references(:group_owner)
-                                                          .group(:group_owner_id, :notifier_type)
+                                                          .group("#{self.class.table_name}.group_owner_id", "#{self.class.table_name}.notifier_type")
                                                           .count("distinct #{self.class.table_name}.notifier_id")
             count = opened_group_member_notifier_counts[[id, notifier_type]] || 0
             count > limit ? limit : count
